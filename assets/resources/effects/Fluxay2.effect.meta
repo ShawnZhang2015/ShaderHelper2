@@ -1,0 +1,11 @@
+{
+  "ver": "1.0.15",
+  "uuid": "d99ec241-c611-4e1b-a1f1-62b26c6b36b0",
+  "compiledShaders": [
+    {
+      "vert": "\n#define _IS_VERT_SHADER 1\n\nprecision highp float;\n\nuniform mat4 cc_matViewProj;\n\n    attribute vec4 a_position;\n    attribute vec2 a_uv0;\n    varying vec2 uv0;\n\n    void main()\n    {\n        gl_Position = cc_matViewProj * a_position;\n        uv0 = a_uv0;\n    }\n\n\n",
+      "frag": "\n#define _IS_FRAG_SHADER 1\n\nprecision highp float;\n                                 \n    \n    \n    uniform sampler2D texture;             \n    \n    varying vec2 uv0;                \n    \n    uniform float factor;  \n    uniform float width;  \n    uniform vec4 color; \n\n    uniform float time;  \n    void main()                                      \n    {                                          \n        vec4 texColor = texture2D(texture, uv0);  \n    \n        float distance = abs(uv0[0]+uv0[1]-tan(time))/1.414;   \n\n        distance = 1.0-(1.0/width)*distance;  \n        distance = max(distance, 0.0);  \n        vec4 sample = vec4(0.0,0.0,0.0,0.0);  \n        sample[0] = color[0] * distance;  \n        sample[1] = color[1] * distance;  \n        sample[2] = color[2] * distance;  \n        sample[3] = distance;  \n\n        float alpha = sample[3]*texColor[3];  \n        texColor[0] = texColor[0] + sample[0]*alpha*factor;  \n        texColor[1] = texColor[1] + sample[1]*alpha*factor;  \n        texColor[2] = texColor[2] + sample[2]*alpha*factor;  \n        gl_FragColor = texColor;  \n    }\n\n\n"
+    }
+  ],
+  "subMetas": {}
+}

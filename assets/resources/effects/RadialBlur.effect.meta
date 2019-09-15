@@ -1,0 +1,11 @@
+{
+  "ver": "1.0.15",
+  "uuid": "05e38189-565f-495f-934c-429c94e8fa09",
+  "compiledShaders": [
+    {
+      "vert": "\n#define _IS_VERT_SHADER 1\n\nprecision highp float;\n\nuniform mat4 cc_matViewProj;\nattribute vec3 a_position;\nattribute vec2 a_uv0;\nvarying vec2 uv0;\nvoid main () {\n    vec4 pos = cc_matViewProj * vec4(a_position, 1);\n    gl_Position = pos;\n    uv0 = a_uv0;\n}\n\n\n",
+      "frag": "\n#define _IS_FRAG_SHADER 1\n\nprecision highp float;\n\nuniform sampler2D texture;\nuniform vec3 iResolution;\nuniform vec2 iCenter;\nuniform float Strength;\nvarying vec2 uv0;\n\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n    \n    const int Samples = 64; \n    \n    vec2 uv = fragCoord.xy;\n    \n    vec2 dir = (fragCoord.xy-iCenter.xy);\n\n    vec4 color = vec4(0.0,0.0,0.0,0.0);\n    \n    for (int i = 0; i < Samples; i += 2) \n    {\n        color += texture2D(texture,uv+float(i)/float(Samples)*dir*Strength);\n        color += texture2D(texture,uv+float(i+1)/float(Samples)*dir*Strength);\n    }   \n    \n    fragColor = color/float(Samples);\n}\n    \nvoid main(void)\n{\n    mainImage(gl_FragColor, uv0);\n}\n\n\n"
+    }
+  ],
+  "subMetas": {}
+}

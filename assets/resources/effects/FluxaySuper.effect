@@ -28,6 +28,10 @@
       type: number
       value: 0.5
     }
+    text: {
+        type: number
+        value: 1
+    }
   }
 %}
 
@@ -87,6 +91,7 @@ precision highp float;
 
 varying lowp vec4 v_color;
 uniform float time;
+uniform float text;
 
 void main () {
     vec4 color = v_color;

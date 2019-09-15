@@ -1,0 +1,85 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+// Note: Current format version is experiment, the format may be changed.
+// The future format may not be compatible, you may need to update the script manually.
+
+// 注意：当前版本的格式是实验性的，之后还会进行修改。
+// 后续版本的格式不保证兼容当前格式，可能需要手动升级到最新版本。，
+%{
+  techniques: [
+    {
+      passes: [
+        {
+          vert: vs
+          frag: fs
+          cullMode: none
+          blend: true
+        }
+      ]
+      layer: 0
+    }
+  ]
+  properties: {
+    texture: {
+      type: sampler2D
+      value: null
+    }
+    iResolution:{
+      type:vec3,
+      displayName:'分辨率'
+      value:[1280,720,0]
+  }
+  time:{
+    type:float,
+    value:1.0
+  }
+  }
+%}
+
+%% vs {
+
+precision highp float;
+
+uniform mat4 cc_matViewProj;
+attribute vec3 a_position;
+attribute vec2 a_uv0;
+varying vec2 uv0;
+void main () {
+    vec4 pos = cc_matViewProj * vec4(a_position, 1);
+    gl_Position = pos;
+    uv0 = a_uv0;
+}
+}
+
+%% fs {
+
+precision highp float;
+
+uniform sampler2D texture;
+uniform vec3 iResolution;
+uniform float time;
+varying vec2 uv0;
+
+#define F cos(x-y)*cos(y),sin(x+y)*sin(y)
+
+vec2 s(vec2 p)
+{
+    float d=time*0.2,x=8.*(p.x+d),y=8.*(p.y+d);
+    return vec2(F);
+}
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+    // 换成resolution
+    vec2 rs = iResolution.xy;
+    // 换成纹理坐标v_texCoord.xy
+    vec2 uv = fragCoord;
+    vec2 q = uv+2./iResolution.x*(s(uv)-s(uv+rs));
+    //反转y
+    //q.y=1.-q.y;
+    fragColor = texture2D(texture, q);
+}
+void main()
+{
+    mainImage(gl_FragColor, uv0.xy);
+}
+}

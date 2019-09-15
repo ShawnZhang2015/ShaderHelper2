@@ -1,0 +1,110 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+// Note: Current format version is experiment, the format may be changed.
+// The future format may not be compatible, you may need to update the script manually.
+
+// 注意：当前版本的格式是实验性的，之后还会进行修改。
+// 后续版本的格式不保证兼容当前格式，可能需要手动升级到最新版本。，
+%{
+  techniques: [
+    {
+      passes: [
+        {
+          vert: vs
+          frag: fs
+          cullMode: none
+          blend: true
+        }
+      ]
+      layer: 0
+    }
+  ]
+  properties: {
+    texture: {
+      type: sampler2D
+      value: null
+    }
+     num: {
+      type: float
+      displayName:'模糊强度'
+      value: 0.02
+    }
+     light: {
+      type: float
+      displayName:'亮度'
+      value: 1.0
+    }
+  }
+%}
+
+%% vs {
+
+precision highp float;
+	
+	uniform mat4 cc_matViewProj;
+	attribute vec3 a_position;
+	attribute vec2 a_uv0;
+	varying vec2 uv0;
+	void main () {
+		vec4 pos = cc_matViewProj * vec4(a_position, 1);
+		gl_Position = pos;
+		uv0 = a_uv0;
+	}
+
+}
+
+%% fs {
+
+precision highp float;
+// 重复次数，值越大模糊质量越高，但性能越低
+#define repeats 5.
+// 贴图采样器，来自于v2f管线
+uniform sampler2D texture;
+// 模糊度，外界属性
+uniform float num;
+// 亮度，外界属性
+uniform float light;
+// 当前点uv
+varying vec2 uv0;
+
+// 应用贴图UV
+vec4 draw(vec2 uv) {
+    return  texture2D(texture,uv).rgba; 
+}
+
+float grid(float var, float size) {
+    return floor(var*size)/size;
+}
+	// 降低亮度
+	vec4 dim(vec4 col, float factor) {
+		return vec4(col.r * factor, col.g * factor, col.b * factor, col.a);
+	}
+	
+// 随机值
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+void main()
+{
+  // 模糊贴图
+    vec4 blurred_image = vec4(0.);
+    	// 重复采样
+    for (float i = 0.; i < repeats; i++) { 
+      // 第一采样点
+        vec2 q = vec2(cos(degrees((i/repeats)*360.)),sin(degrees((i/repeats)*360.))) * (rand(vec2(i,uv0.x+uv0.y))+num); 
+        vec2 uv2 = uv0+(q*num);
+        blurred_image += draw(uv2)/2.;
+        
+        // 第二采样点
+        q = vec2(cos(degrees((i/repeats)*360.)),sin(degrees((i/repeats)*360.))) * (rand(vec2(i+2.,uv0.x+uv0.y+24.))+num); 
+        uv2 = uv0+(q*num);
+        blurred_image += draw(uv2)/2.;
+    }
+    	// 中和
+    blurred_image /= repeats;
+    	// 降低亮度
+		blurred_image = dim(blurred_image, light);
+    // 导出颜色
+    gl_FragColor = vec4(blurred_image);
+}
+}

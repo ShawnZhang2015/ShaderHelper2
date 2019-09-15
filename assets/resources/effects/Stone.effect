@@ -1,0 +1,65 @@
+// Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.  
+
+// Note: Current format version is experiment, the format may be changed.
+// The future format may not be compatible, you may need to update the script manually.
+
+// 注意：当前版本的格式是实验性的，之后还会进行修改。
+// 后续版本的格式不保证兼容当前格式，可能需要手动升级到最新版本。，
+%{
+  techniques: [
+    {
+      passes: [
+        {
+          vert: vs
+          frag: fs
+          cullMode: none
+          blend: true
+        }
+      ]
+      layer: 0
+    }
+  ]
+  properties: {
+    texture: {
+      type: sampler2D
+      value: null
+    }
+    color: {
+      type: color4
+      displayName:'颜色'
+      value: [1, 1, 1, 1]
+    }
+  }
+%}
+
+%% vs {
+
+precision highp float;
+
+uniform mat4 cc_matViewProj;
+attribute vec3 a_position;
+attribute vec2 a_uv0;
+varying vec2 uv0;
+void main () {
+    vec4 pos = cc_matViewProj * vec4(a_position, 1);
+    gl_Position = pos;
+    uv0 = a_uv0;
+}
+
+}
+
+%% fs {
+
+precision highp float;
+
+uniform sampler2D texture;
+uniform vec4 color;
+varying vec2 uv0;
+
+void main () {
+    vec4 c = color * texture2D(texture, uv0);
+    float clrbright = (c.r + c.g + c.b) * (1. / 3.);
+    float gray = (0.6) * clrbright;
+    gl_FragColor = vec4(gray, gray, gray, c.a);
+}
+}

@@ -1,0 +1,11 @@
+{
+  "ver": "1.0.15",
+  "uuid": "f888d50b-ac1c-4a41-abb0-c8086c871ed0",
+  "compiledShaders": [
+    {
+      "vert": "\n#define _IS_VERT_SHADER 1\n\nprecision highp float;\n\nuniform mat4 cc_matViewProj;\nattribute vec3 a_position;\nattribute vec2 a_uv0;\nvarying vec2 uv0;\nvoid main () {\n    vec4 pos = cc_matViewProj * vec4(a_position, 1);\n    gl_Position = pos;\n    uv0 = a_uv0;\n}\n\n\n",
+      "frag": "\n#define _IS_FRAG_SHADER 1\n\nprecision highp float;\n\nuniform sampler2D texture;\nuniform vec3 iResolution;\nuniform float time;\nvarying vec2 uv0;\n\n#define F cos(x-y)*cos(y),sin(x+y)*sin(y)\n\nvec2 s(vec2 p)\n{\n    float d=time*0.2,x=8.*(p.x+d),y=8.*(p.y+d);\n    return vec2(F);\n}\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n    \n    vec2 rs = iResolution.xy;\n    \n    vec2 uv = fragCoord;\n    vec2 q = uv+2./iResolution.x*(s(uv)-s(uv+rs));\n    \n    \n    fragColor = texture2D(texture, q);\n}\nvoid main()\n{\n    mainImage(gl_FragColor, uv0.xy);\n}\n\n\n"
+    }
+  ],
+  "subMetas": {}
+}
