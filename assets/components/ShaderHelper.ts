@@ -5,11 +5,11 @@ export class ShaderProperty {
     @property(cc.String)
     key = '';
 
-    @property(cc.String)
-    value = '';
+    @property(cc.Float)
+    value = 0.0;
 };
 
-const ShaderEnum = cc.Enum({a:-1, b:-1});
+const ShaderEnum = cc.Enum({});
 
 @ccclass
 @executeInEditMode
@@ -31,8 +31,18 @@ export default class ShaderHelper extends cc.Component {
     }
 
     //shader参数
-    @property([ShaderProperty])
-    props: ShaderProperty[] = [];
+    @property({type: [ShaderProperty]})
+    _props: ShaderProperty[] = [];
+    
+    @property({type: [ShaderProperty]})
+    get props() : ShaderProperty[] {
+        return this._props;
+    }
+
+    set props(value) {
+        this._props = value;    
+        this.applyEffect();
+    }
 
     //材质对象
     material: cc.Material = null;
@@ -53,9 +63,7 @@ export default class ShaderHelper extends cc.Component {
     }
 
     applyEffect() {
-        // if (CC_EDITOR) {
-        //     return;
-        // }
+  
         //获取精灵组件
         let sprite = this.node.getComponent(cc.Sprite);
         if (!sprite) {
@@ -68,8 +76,8 @@ export default class ShaderHelper extends cc.Component {
         
         //在材质对象上开启USE_TEXTURE定义s
         material.define('USE_TEXTURE', true); 
-        //为材质设置effect，也是就绑定Shader了
 
+        //为材质设置effect，也是就绑定Shader了
         material.effectAsset = effectAsset
         material.name = effectAsset.name;
 
@@ -80,11 +88,12 @@ export default class ShaderHelper extends cc.Component {
         //从精灵组件上获取材质，这步很重要，不然没效果
         this.material = sprite.getMaterial(0);
 
-        this.props.forEach(item => this.material.setProperty(item.key, item.value));
+        this.props.forEach(item => item.key && this.material.setProperty(item.key, item.value || 0));
     }
 }
 
 cc.game.on(cc.game.EVENT_ENGINE_INITED, () => {
+    cc.dynamicAtlasManager.enabled = false;
     cc.loader.loadResDir('effects', cc.EffectAsset ,(error, res) => {
         ShaderHelper.effectAssets = res;
         let array = ShaderHelper.effectAssets.map((item, i)  => { 
