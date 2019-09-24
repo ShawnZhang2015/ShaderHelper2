@@ -2,7 +2,7 @@ const {ccclass, property, executeInEditMode} = cc._decorator;
 
 @ccclass('ShaderProperty')
 export class ShaderProperty {
-    @property(cc.String)
+    @property({readonly: true})
     key = '';
 
     @property(cc.Float)
@@ -59,13 +59,13 @@ export default class ShaderHelper extends cc.Component {
         } else {
             this.applyEffect();
         }
-        
+        this.node.on(cc.Node.EventType.TOUCH_END, this.next, this);
     }
 
     applyEffect() {
   
         //获取精灵组件
-        let sprite = this.node.getComponent(cc.Sprite);
+        let sprite = this.node.getComponent(cc.Sprite) || this.node.getComponent(cc.Label);
         if (!sprite) {
             return;    
         }
@@ -75,7 +75,10 @@ export default class ShaderHelper extends cc.Component {
         let material = new cc.Material();
         
         //在材质对象上开启USE_TEXTURE定义s
-        material.define('USE_TEXTURE', true); 
+        let defineUserTexture = !!effectAsset.shaders.find(shader => shader.defines.find(def => def.name === 'USE_TEXTURE'));
+        if (defineUserTexture) {
+            material.define('USE_TEXTURE', true); 
+        }
 
         //为材质设置effect，也是就绑定Shader了
         material.effectAsset = effectAsset
@@ -87,9 +90,43 @@ export default class ShaderHelper extends cc.Component {
 
         //从精灵组件上获取材质，这步很重要，不然没效果
         this.material = sprite.getMaterial(0);
-
-        this.props.forEach(item => item.key && this.material.setProperty(item.key, item.value || 0));
+        this.setProperty(effectAsset);
     }
+
+    setProperty(effectAsset) {
+        if (CC_EDITOR) {
+            let oldProps = this._props;
+            this._props = [];
+            let keys = Object.keys(effectAsset.properties);
+            //@ts-ignore
+            let values = Object.values(effectAsset.properties);
+            
+            for (let i = 0; i < values.length; i++) {
+                let value: number = values[i].value;
+                let key = keys[i];
+                if (value !== null && values[i].type === 4) {
+                    let oldItem = oldProps.find(item => item.key === key);
+                    if (oldItem) {
+                        value = oldItem.value;
+                    }
+                    let sp = new ShaderProperty()
+                    sp.key = key;
+                    sp.value = value;
+                    this._props.push(sp);    
+                }
+            }
+        }
+        if (this._props.length) {
+            this._props.forEach(item => item.key && this.material.setProperty(item.key, item.value || 0));
+        }
+        // @ts-ignore
+        cc.Class.Attr.setClassAttr(ShaderHelper, 'props', 'visible', !!this._props.length);    
+    }
+
+    next() {
+        this.program = (this.program + 1) % ShaderHelper.effectAssets.length;
+    }
+
 }
 
 cc.game.on(cc.game.EVENT_ENGINE_INITED, () => {

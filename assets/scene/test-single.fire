@@ -45,12 +45,6 @@
       "y": 1,
       "z": 1
     },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
     "_is3DNode": true,
     "groupIndex": 0,
     "autoReleaseAssets": false,
@@ -159,7 +153,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 554.2562584220408
+      "z": 361.9986187818954
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -246,8 +240,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 512,
-      "height": 512
+      "width": 300,
+      "height": 300
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -256,8 +250,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 23.5,
-      "y": 5.625,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -276,7 +270,7 @@
     "_skewY": 0,
     "_is3DNode": false,
     "groupIndex": 0,
-    "_id": "08KON0WNdGZLbmiLiGiUCU"
+    "_id": "31rhFRKmxDIalzE38Wj5cI"
   },
   {
     "__type__": "cc.Sprite",
@@ -295,7 +289,7 @@
       "__uuid__": "4c393e12-4663-4dbd-b8ae-51b5d67c9c02"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -306,19 +300,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": null,
-    "_id": "9c39/0uf5DX6CuTymftBDd"
-  },
-  {
-    "__type__": "49d0auleM9GkaUgf+inMFoR",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 5
-    },
-    "_enabled": true,
-    "_program": 5,
-    "_props": [],
-    "_id": "51DS71nOJJ/4MZquZS5Jmr"
+    "_id": "d2QXtiYt5NvL7fkGgxWh6G"
   },
   {
     "__type__": "5866cn/yXtO664c25gnwSdk",
@@ -328,8 +310,20 @@
       "__id__": 5
     },
     "_enabled": true,
-    "_max": 1.5,
-    "_id": "0fXVNEcfROnrnw5cSjWfs0"
+    "_max": 1.1,
+    "_id": "a9uAD1XSRD5peSCCF4P4yX"
+  },
+  {
+    "__type__": "49d0auleM9GkaUgf+inMFoR",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 5
+    },
+    "_enabled": true,
+    "_program": 3,
+    "_props": [],
+    "_id": "2eBj8PnIZOgowaHihQ7izH"
   },
   {
     "__type__": "cc.Canvas",
