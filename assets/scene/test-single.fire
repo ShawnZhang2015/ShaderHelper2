@@ -69,7 +69,7 @@
     "_level": 0,
     "_components": [
       {
-        "__id__": 9
+        "__id__": 12
       }
     ],
     "_prefab": null,
@@ -321,9 +321,34 @@
       "__id__": 5
     },
     "_enabled": true,
-    "_program": 3,
-    "_props": [],
+    "_program": 2,
+    "_props": [
+      {
+        "__id__": 9
+      },
+      {
+        "__id__": 10
+      },
+      {
+        "__id__": 11
+      }
+    ],
     "_id": "2eBj8PnIZOgowaHihQ7izH"
+  },
+  {
+    "__type__": "ShaderProperty",
+    "key": "u_edge",
+    "value": 0.5
+  },
+  {
+    "__type__": "ShaderProperty",
+    "key": "u_offset",
+    "value": 0.01
+  },
+  {
+    "__type__": "ShaderProperty",
+    "key": "edge_blur",
+    "value": 0.01
   },
   {
     "__type__": "cc.Canvas",
