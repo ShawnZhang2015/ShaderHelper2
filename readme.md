@@ -9,5 +9,5 @@ https://github.com/ShawnZhang2015/ShaderHelper
 ## 更多详情关注公众号
 ![Creator星球游戏开发社区](https://github.com/ShawnZhang2015/ShaderHelper2/raw/master/gzh.jpg)
 
-原创不易，众筹植发
 ![Creator星球游戏开发社区](https://github.com/ShawnZhang2015/ShaderHelper2/raw/master/wxpay.jpg)
+原创不易，众筹植发
