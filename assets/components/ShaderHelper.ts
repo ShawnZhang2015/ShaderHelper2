@@ -115,7 +115,16 @@ export default class ShaderHelper extends cc.Component {
                     this._props.push(sp);    
                 }
             }
+
+            // setTimeout(() => {
+                let shaderTimer = this.getComponent('ShaderTime');
+                //cc.log(shaderTimer.max);
+                if (shaderTimer) {
+                    shaderTimer.max =  shaderTimer.max;      
+                }  
+            //}, 1000);
         }
+
         if (this._props.length) {
             this._props.forEach(item => item.key && this.material.setProperty(item.key, item.value || 0));
         }

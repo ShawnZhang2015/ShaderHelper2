@@ -69,7 +69,7 @@
     "_level": 0,
     "_components": [
       {
-        "__id__": 12
+        "__id__": 11
       }
     ],
     "_prefab": null,
@@ -153,7 +153,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 361.9986187818954
+      "z": 210.4441731196186
     },
     "_scale": {
       "__type__": "cc.Vec3",
@@ -240,8 +240,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 300,
-      "height": 300
+      "width": 512,
+      "height": 512
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -289,7 +289,7 @@
       "__uuid__": "4c393e12-4663-4dbd-b8ae-51b5d67c9c02"
     },
     "_type": 0,
-    "_sizeMode": 0,
+    "_sizeMode": 2,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -310,7 +310,7 @@
       "__id__": 5
     },
     "_enabled": true,
-    "_max": 1.1,
+    "_max": 0.7,
     "_id": "a9uAD1XSRD5peSCCF4P4yX"
   },
   {
@@ -321,34 +321,26 @@
       "__id__": 5
     },
     "_enabled": true,
-    "_program": 2,
+    "_program": 5,
     "_props": [
       {
         "__id__": 9
       },
       {
         "__id__": 10
-      },
-      {
-        "__id__": 11
       }
     ],
     "_id": "2eBj8PnIZOgowaHihQ7izH"
   },
   {
     "__type__": "ShaderProperty",
-    "key": "u_edge",
+    "key": "factor",
     "value": 0.5
   },
   {
     "__type__": "ShaderProperty",
-    "key": "u_offset",
-    "value": 0.01
-  },
-  {
-    "__type__": "ShaderProperty",
-    "key": "edge_blur",
-    "value": 0.01
+    "key": "width",
+    "value": 0.02
   },
   {
     "__type__": "cc.Canvas",
