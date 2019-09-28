@@ -22,11 +22,14 @@ export default class ShaderTime extends cc.Component {
         
         let sprite = this.node.getComponent(cc.Sprite);
         if (sprite) {
-            let material: any = sprite.sharedMaterials[0];
-            material.effect.setProperty('time', value);
+            this._material = this.getComponent(cc.Sprite).sharedMaterials[0];
+            if (this._material.effect._properties.time) {
+                let material: any = sprite.sharedMaterials[0];
+                material.effect.setProperty('time', value);
+            }
         }
     }
-
+    
     private _start = 0;
 
     protected update(dt) {
