@@ -74,7 +74,7 @@ export default class ShaderHelper extends cc.Component {
         //实例化一个材质对象
         let material = new cc.Material();
         
-        //在材质对象上开启USE_TEXTURE定义s
+        //在材质对象上开启USE_TEXTURE定义
         let defineUserTexture = !!effectAsset.shaders.find(shader => shader.defines.find(def => def.name === 'USE_TEXTURE'));
         if (defineUserTexture) {
             material.define('USE_TEXTURE', true); 
