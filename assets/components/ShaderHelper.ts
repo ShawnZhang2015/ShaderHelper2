@@ -65,7 +65,7 @@ export default class ShaderHelper extends cc.Component {
     applyEffect() {
   
         //获取精灵组件
-        let sprite = this.node.getComponent(cc.Sprite) || this.node.getComponent(cc.Label);
+        let sprite = this.node.getComponent(cc.Sprite);
         if (!sprite) {
             return;    
         }
@@ -97,21 +97,23 @@ export default class ShaderHelper extends cc.Component {
         if (CC_EDITOR) {
             let oldProps = this._props;
             this._props = [];
-            let keys = Object.keys(effectAsset.properties);
+
+            let keys = Object.keys(effectAsset._effect._properties);
             //@ts-ignore
-            let values = Object.values(effectAsset.properties);
+            let values = Object.values(effectAsset._effect._properties);
             
             for (let i = 0; i < values.length; i++) {
                 let value: number = values[i].value;
                 let key = keys[i];
-                if (value !== null && values[i].type === 4) {
+                let type = values[i].type;
+                if (value !== null && (type === 4 || type === 13)) {
                     let oldItem = oldProps.find(item => item.key === key);
                     if (oldItem) {
                         value = oldItem.value;
                     }
                     let sp = new ShaderProperty()
                     sp.key = key;
-                    sp.value = value;
+                    sp.value = typeof(value) === 'object'  ? value[0] : value;
                     this._props.push(sp);    
                 }
             }
@@ -140,7 +142,7 @@ export default class ShaderHelper extends cc.Component {
 
 cc.game.on(cc.game.EVENT_ENGINE_INITED, () => {
     //cc.dynamicAtlasManager.enabled = false;
-    cc.loader.loadResDir('effects', cc.EffectAsset ,(error, res) => {
+    cc.loader.loadResDir('e2', cc.EffectAsset ,(error, res) => {
         ShaderHelper.effectAssets = res;
         let array = ShaderHelper.effectAssets.map((item, i)  => { 
             return {name:item._name, value: i}; 

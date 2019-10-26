@@ -1,0 +1,17 @@
+{
+  "ver": "1.0.22",
+  "uuid": "d5330e0c-5d26-4379-8717-6e2192770bf8",
+  "compiledShaders": [
+    {
+      "glsl1": {
+        "vert": "\nprecision highp float;\nuniform mat4 cc_matViewProj;\nuniform mat4 cc_matWorld;\n\nattribute vec3 a_position;\nattribute vec4 a_color;\nvarying vec4 v_color;\n\n#if USE_TEXTURE\nattribute vec2 a_uv0;\nvarying vec2 v_uv0;\n#endif\n\nvoid main () {\n  vec4 pos = vec4(a_position, 1);\n\n  #if CC_USE_MODEL\n  pos = cc_matViewProj * cc_matWorld * pos;\n  #else\n  pos = cc_matViewProj * pos;\n  #endif\n\n  #if USE_TEXTURE\n  v_uv0 = a_uv0;\n  #endif\n\n  v_color = a_color;\n\n  gl_Position = pos;\n}\n",
+        "frag": "\nprecision highp float;\n\nvarying vec4 v_color;\n\n#if USE_TEXTURE\nvarying vec2 v_uv0;\nuniform sampler2D texture;\n#endif\n\nuniform vec4 color;\nuniform float time;\nvoid main()\n{\n    vec4 c = color * texture2D(texture, v_uv0);\n    gl_FragColor = c;\n\n    float temp = v_uv0.x - time;\n    if (temp <= 0.0) {\n        float temp2 = abs(temp);\n        if (temp2 <= 0.2) {\n            if (gl_FragColor.w > 0.0) {\n                gl_FragColor.w = 1.0 - temp2/0.2;\n            }\n        } else {\n            gl_FragColor.w = 0.0;\n        }\n    } else {\n\n    }\n}\n"
+      },
+      "glsl3": {
+        "vert": "\nprecision highp float;\nuniform CCGlobal {\n  vec4 cc_time;\n\n  vec4 cc_screenSize;\n\n  vec4 cc_screenScale;\n\n  vec4 cc_nativeSize;\n\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n\n  vec4 cc_exposure;\n\n  vec4 cc_mainLitDir;\n\n  vec4 cc_mainLitColor;\n\n  vec4 cc_ambientSky;\n  vec4 cc_ambientGround;\n};\nuniform CCLocal {\n  mat4 cc_matWorld;\n  mat4 cc_matWorldIT;\n};\n\nin vec3 a_position;\nin vec4 a_color;\nout vec4 v_color;\n\n#if USE_TEXTURE\nin vec2 a_uv0;\nout vec2 v_uv0;\n#endif\n\nvoid main () {\n  vec4 pos = vec4(a_position, 1);\n\n  #if CC_USE_MODEL\n  pos = cc_matViewProj * cc_matWorld * pos;\n  #else\n  pos = cc_matViewProj * pos;\n  #endif\n\n  #if USE_TEXTURE\n  v_uv0 = a_uv0;\n  #endif\n\n  v_color = a_color;\n\n  gl_Position = pos;\n}\n",
+        "frag": "\nprecision highp float;\n\nin vec4 v_color;\n\n#if USE_TEXTURE\nin vec2 v_uv0;\nuniform sampler2D texture;\n#endif\n\nuniform 1{\n  vec4 color;\n  float time;\n}\n\nvoid main()\n{\n    vec4 c = color * texture2D(texture, v_uv0);\n    gl_FragColor = c;\n\n    float temp = v_uv0.x - time;\n    if (temp <= 0.0) {\n        float temp2 = abs(temp);\n        if (temp2 <= 0.2) {\n            if (gl_FragColor.w > 0.0) {\n                gl_FragColor.w = 1.0 - temp2/0.2;\n            }\n        } else {\n            gl_FragColor.w = 0.0;\n        }\n    } else {\n\n    }\n}\n"
+      }
+    }
+  ],
+  "subMetas": {}
+}
