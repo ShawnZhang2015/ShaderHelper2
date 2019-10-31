@@ -1,0 +1,17 @@
+{
+  "ver": "1.0.22",
+  "uuid": "2c848409-b277-415e-b759-2b6866d3456e",
+  "compiledShaders": [
+    {
+      "glsl1": {
+        "vert": "\nprecision highp float;\nuniform mat4 cc_matViewProj;\nuniform mat4 cc_matWorld;\n\nattribute vec3 a_position;\nattribute vec4 a_color;\nvarying vec4 v_color;\n\n#if USE_TEXTURE\nattribute vec2 a_uv0;\nvarying vec2 v_uv0;\n#endif\n\nvoid main () {\n  vec4 pos = vec4(a_position, 1);\n\n  #if CC_USE_MODEL\n  pos = cc_matViewProj * cc_matWorld * pos;\n  #else\n  pos = cc_matViewProj * pos;\n  #endif\n\n  #if USE_TEXTURE\n  v_uv0 = a_uv0;\n  #endif\n\n  v_color = a_color;\n\n  gl_Position = pos;\n}\n",
+        "frag": "\nprecision highp float;\n\nuniform sampler2D texture;\nvarying vec2 v_uv0;\nuniform vec2 iCenter;\nuniform float Strength;\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n\n    const int Samples = 64;\n\n    vec2 uv = fragCoord.xy;\n    \n    vec2 dir = (fragCoord.xy-iCenter.xy);\n\n    vec4 color = vec4(0.0,0.0,0.0,0.0);\n    \n    for (int i = 0; i < Samples; i += 2)\n\n    {\n        color += texture2D(texture,uv+float(i)/float(Samples)*dir*Strength);\n        color += texture2D(texture,uv+float(i+1)/float(Samples)*dir*Strength);\n    }   \n    \n    fragColor = color/float(Samples);\n}\n    \nvoid main(void)\n{\n    mainImage(gl_FragColor, v_uv0);\n}\n"
+      },
+      "glsl3": {
+        "vert": "\nprecision highp float;\nuniform CCGlobal {\n  vec4 cc_time;\n\n  vec4 cc_screenSize;\n\n  vec4 cc_screenScale;\n\n  vec4 cc_nativeSize;\n\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n\n  vec4 cc_exposure;\n\n  vec4 cc_mainLitDir;\n\n  vec4 cc_mainLitColor;\n\n  vec4 cc_ambientSky;\n  vec4 cc_ambientGround;\n};\nuniform CCLocal {\n  mat4 cc_matWorld;\n  mat4 cc_matWorldIT;\n};\n\nin vec3 a_position;\nin vec4 a_color;\nout vec4 v_color;\n\n#if USE_TEXTURE\nin vec2 a_uv0;\nout vec2 v_uv0;\n#endif\n\nvoid main () {\n  vec4 pos = vec4(a_position, 1);\n\n  #if CC_USE_MODEL\n  pos = cc_matViewProj * cc_matWorld * pos;\n  #else\n  pos = cc_matViewProj * pos;\n  #endif\n\n  #if USE_TEXTURE\n  v_uv0 = a_uv0;\n  #endif\n\n  v_color = a_color;\n\n  gl_Position = pos;\n}\n",
+        "frag": "\nprecision highp float;\n\nuniform sampler2D texture;\nvarying vec2 v_uv0;\nuniform PROPERTIES {\n    vec4 iResolution;\n    vec2 iCenter;\n    float Strength;\n}\n\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n\n    const int Samples = 64;\n\n    vec2 uv = fragCoord.xy;\n    \n    vec2 dir = (fragCoord.xy-iCenter.xy);\n\n    vec4 color = vec4(0.0,0.0,0.0,0.0);\n    \n    for (int i = 0; i < Samples; i += 2)\n\n    {\n        color += texture2D(texture,uv+float(i)/float(Samples)*dir*Strength);\n        color += texture2D(texture,uv+float(i+1)/float(Samples)*dir*Strength);\n    }   \n    \n    fragColor = color/float(Samples);\n}\n    \nvoid main(void)\n{\n    mainImage(gl_FragColor, v_uv0);\n}\n"
+      }
+    }
+  ],
+  "subMetas": {}
+}

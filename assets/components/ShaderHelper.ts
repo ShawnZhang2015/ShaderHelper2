@@ -59,7 +59,7 @@ export default class ShaderHelper extends cc.Component {
         } else {
             this.applyEffect();
         }
-        this.node.on(cc.Node.EventType.TOUCH_END, this.next, this);
+        //this.node.on(cc.Node.EventType.TOUCH_END, this.next, this);
     }
 
     applyEffect() {
@@ -91,6 +91,7 @@ export default class ShaderHelper extends cc.Component {
         //从精灵组件上获取材质，这步很重要，不然没效果
         this.material = sprite.getMaterial(0);
         this.setProperty(effectAsset);
+        this.node.emit('effect-changed', this, this.material);
     }
 
     setProperty(effectAsset) {
@@ -138,11 +139,19 @@ export default class ShaderHelper extends cc.Component {
         this.program = (this.program + 1) % ShaderHelper.effectAssets.length;
     }
 
+    prev() {
+        if (this.program === 0) {
+            this.program = ShaderHelper.effectAssets.length - 1;    
+            return;
+        }
+        this.program = (this.program - 1) % ShaderHelper.effectAssets.length;
+    }
+
 }
 
 cc.game.on(cc.game.EVENT_ENGINE_INITED, () => {
     //cc.dynamicAtlasManager.enabled = false;
-    cc.loader.loadResDir('e2', cc.EffectAsset ,(error, res) => {
+    cc.loader.loadResDir('effect', cc.EffectAsset ,(error, res) => {
         ShaderHelper.effectAssets = res;
         let array = ShaderHelper.effectAssets.map((item, i)  => { 
             return {name:item._name, value: i}; 
