@@ -2,6 +2,7 @@
   "android-instant": {
     "REMOTE_SERVER_ROOT": "",
     "host": "",
+    "packageName": "org.cocos2d.ShaderHelper2",
     "pathPattern": "",
     "recordPath": "",
     "scheme": "https",
@@ -46,5 +47,15 @@
     "subContext": ""
   },
   "xxteaKey": "7450622b-b2f0-4c",
-  "zipCompressJs": true
+  "zipCompressJs": true,
+  "android": {
+    "packageName": "org.cocos2d.ShaderHelper2"
+  },
+  "ios": {
+    "packageName": "org.cocos2d.ShaderHelper2"
+  },
+  "mac": {
+    "packageName": "org.cocos2d.ShaderHelper2"
+  },
+  "win32": {}
 }

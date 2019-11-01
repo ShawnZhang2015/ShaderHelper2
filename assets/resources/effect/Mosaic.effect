@@ -12,7 +12,7 @@ CCEffect %{
         cullMode: none
       properties:
         texture: { value: white }
-        mosaicSize: { type: float, value: 15.0 }
+        mosaicSize: { value: 15.0 }
 }%
 
 CCProgram vs %{
