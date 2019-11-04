@@ -180,7 +180,7 @@
       "array": [
         0,
         0,
-        330.82171630859375,
+        394.04156494140625,
         0,
         0,
         0,
@@ -318,7 +318,9 @@
     },
     "_enabled": true,
     "_materials": [
-      null
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
