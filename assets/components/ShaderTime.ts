@@ -8,6 +8,9 @@ export default class ShaderTime extends cc.Component {
     @property
     _max: number = 65535;
 
+    @property
+    step: number = 0.01;
+
     isUpdate: boolean;
 
     @property
@@ -41,7 +44,7 @@ export default class ShaderTime extends cc.Component {
     private _setShaderTime(dt) {
         let start = this._start;
         if (start > this.max) start = 0;
-        start += 0.02;
+        start += this.step;
         this._material.effect.setProperty('time', start);
 
         this._start = start;
