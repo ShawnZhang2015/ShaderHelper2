@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.4",
   "uuid": "bfc64ae2-9fd1-4af6-838d-5e4916b49426",
   "type": "sprite",
   "wrapMode": "clamp",
@@ -7,6 +7,8 @@
   "premultiplyAlpha": false,
   "genMipmaps": false,
   "packable": true,
+  "width": 307,
+  "height": 465,
   "platformSettings": {},
   "subMetas": {
     "wcard": {

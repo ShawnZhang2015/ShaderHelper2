@@ -7,7 +7,11 @@
   ],
   "design-resolution-height": 640,
   "design-resolution-width": 960,
-  "excluded-modules": [],
+  "excluded-modules": [
+    "3D Physics/cannon.js",
+    "3D Physics/Builtin",
+    "3D Particle"
+  ],
   "facebook": {
     "appID": "",
     "audience": {
@@ -23,7 +27,7 @@
   "group-list": [
     "default"
   ],
-  "last-module-event-record-time": 1572528688698,
+  "last-module-event-record-time": 1578550192973,
   "simulator-orientation": false,
   "simulator-resolution": {
     "height": 640,

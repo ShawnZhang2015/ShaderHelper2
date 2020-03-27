@@ -17,7 +17,7 @@ cc.Class({
 
                 let sprite = this.node.getComponent(cc.Sprite);
                 if (sprite) {
-                    let material = sprite.sharedMaterials[0];
+                    let material = sprite.getMaterials()[0];
                     material.effect.setProperty('time', value);
                 }
             }
@@ -25,7 +25,7 @@ cc.Class({
     },
 
     start() {
-        this._material = this.node.getComponent(cc.Sprite).sharedMaterials[0];
+        this._material = this.node.getComponent(cc.Sprite).getMaterials()[0];
     },
 
 

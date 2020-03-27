@@ -9,7 +9,7 @@ export default class Shader extends cc.Component {
     onLoad() {
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this._onTouchMove, this);
         this.node.on('effect-changed', (sender, material: any) => {
-            if (material.effect._properties.iResolution) {
+            if (material.effect.passes[0]._properties.iResolution) {
                 let size = this.node.getBoundingBox().size;
                 material.effect.setProperty('iResolution',cc.v2(size.width, size.height));
                 this._material = material;    

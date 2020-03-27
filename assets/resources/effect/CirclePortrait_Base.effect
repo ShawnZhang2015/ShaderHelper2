@@ -58,8 +58,11 @@ CCProgram fs %{
 	
 precision highp float;
 
+
 // 贴图采样器，来自于v2f管线
 uniform sampler2D texture;
+
+
 // 当前点uv
 varying vec2 v_uv0;
 uniform ARGS{
@@ -67,7 +70,7 @@ uniform ARGS{
     vec4 edge_color0;
     float u_edge;
     float edge_blur; 
-}
+};
 
 
 // 应用贴图颜色 画圆

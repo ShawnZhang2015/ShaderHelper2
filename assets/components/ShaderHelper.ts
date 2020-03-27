@@ -15,6 +15,7 @@ const ShaderEnum = cc.Enum({});
 @executeInEditMode
 export default class ShaderHelper extends cc.Component {
     
+    _effectName: string = '';
     //枚举Shader程序
     @property
     _program = 0;
@@ -27,6 +28,9 @@ export default class ShaderHelper extends cc.Component {
             return;
         }
         this._program = value;
+        console.log(ShaderEnum);
+        //Editor.log(ShaderEnum[this._program]);
+
         this.applyEffect();
     }
 
@@ -74,15 +78,14 @@ export default class ShaderHelper extends cc.Component {
         //实例化一个材质对象
         let material = new cc.Material();
         
+        //为材质设置effect，也是就绑定Shader了
+        material.effectAsset = effectAsset
+        material.name = effectAsset.name;
         //在材质对象上开启USE_TEXTURE定义
         let defineUserTexture = !!effectAsset.shaders.find(shader => shader.defines.find(def => def.name === 'USE_TEXTURE'));
         if (defineUserTexture) {
             material.define('USE_TEXTURE', true); 
         }
-
-        //为材质设置effect，也是就绑定Shader了
-        material.effectAsset = effectAsset
-        material.name = effectAsset.name;
 
         //将材质绑定到精灵组件上，精灵可以绑定多个材质
         //这里我们替换0号默认材质
@@ -99,9 +102,11 @@ export default class ShaderHelper extends cc.Component {
             let oldProps = this._props;
             this._props = [];
 
-            let keys = Object.keys(effectAsset._effect._properties);
+            let properties = effectAsset._effect._properties || effectAsset._effect.passes[0]._properties;
+            
+            let keys = Object.keys(properties);
             //@ts-ignore
-            let values = Object.values(effectAsset._effect._properties);
+            let values = Object.values(properties);
             
             for (let i = 0; i < values.length; i++) {
                 let value: number = values[i].value;
@@ -153,9 +158,11 @@ cc.game.on(cc.game.EVENT_ENGINE_INITED, () => {
     cc.dynamicAtlasManager.enabled = false;
     cc.loader.loadResDir('effect', cc.EffectAsset ,(error, res) => {
         ShaderHelper.effectAssets = res;
-        let array = ShaderHelper.effectAssets.map((item, i)  => { 
+        let array = ShaderHelper.effectAssets.map((item, i)  => {
             return {name:item._name, value: i}; 
         });
+        //array.sort((a,b )=> a.name - b.name);
+       
 
         //@ts-ignore
         cc.Class.Attr.setClassAttr(ShaderHelper, 'program', 'enumList', array);

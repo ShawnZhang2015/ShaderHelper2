@@ -25,9 +25,9 @@ export default class ShaderTime extends cc.Component {
         
         let sprite = this.node.getComponent(cc.Sprite);
         if (sprite) {
-            this._material = this.getComponent(cc.Sprite).sharedMaterials[0];
-            if (this._material.effect._properties.time) {
-                let material: any = sprite.sharedMaterials[0];
+            this._material = this.getComponent(cc.Sprite).getMaterials()[0];
+            if (this._material.effect.passes[0]._properties.time) {
+                let material: any = sprite.getMaterials()[0];
                 material.effect.setProperty('time', value);
             }
         }
@@ -36,8 +36,8 @@ export default class ShaderTime extends cc.Component {
     private _start = 0;
 
     protected update(dt) {
-        this._material = this.node.getComponent(cc.Sprite).sharedMaterials[0];
-        if (this.node.active && this._material && this._material.effect._properties.time) {
+        this._material = this.node.getComponent(cc.Sprite).getMaterials()[0];
+        if (this.node.active && this._material && this._material.effect.passes[0]._properties.time) {
             this._setShaderTime(dt);
         }
     }
